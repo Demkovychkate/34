@@ -20,4 +20,3 @@ document.addEventListener('keydown', setStepToBlock);
 setInterval(() => {
     setStepToBlock({ keyCode: 40});  
 }, 1000);
-   
