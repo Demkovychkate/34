@@ -2,9 +2,19 @@
     position:absolute;
     top:0;
     left:0;
-    width: 200px;
-    height: 200px;   
-    background-color: black;
-    border: 20px solid pink;
+    width: 50px;
+    height: 50px;   
+    background-color:green;
+    border: 10px solid greenyellow;
     display: flex;
+    align-items: center;
+    justify-content:center ;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50px;
+    height: 50px;  
 }
