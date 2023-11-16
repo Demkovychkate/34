@@ -4,7 +4,7 @@
     left:0;
     width: 200px;
     height: 200px;   
-    background-color: (0, 0, 0);
-    border: 20px solid violet;
+    background-color: black;
+    border: 20px solid pink;
     display: flex;
 }
