@@ -2,9 +2,26 @@ const block = document.createElement('div');
 block.className = 'block';
 document.body.appendChild(block);
 
+const inputContainer = document.createElement('div');
+inputContainer.className = 'inputContainer';
+document.body.appendChild(inputContainer);
+
+const newYeartree = document.createElement('p');
+newYeartree.className = 'newYeartree';
+newYeartree.textContent = `Make your own New Year Tree`;
+inputContainer.appendChild(newYeartree);
+
+const scoreNumber = document.createElement('p');
+scoreNumber.className = 'scoreNumber';
+scoreNumber.textContent = `Your Score`;
+inputContainer.appendChild(scoreNumber);
+
+
 const input = document.createElement('input');
 input.className = 'input';
-document.body.appendChild(input);
+inputContainer.appendChild(input);
+
+
 
 const maxX = window.innerWidth - block.offsetWidth;
 const maxY = window.innerHeight - block.offsetHeight;
@@ -41,7 +58,7 @@ function isAboveBottomEdge() {
 function showScore() {
     if (isAboveBottomEdge()) {
         score += 1;
-        input.value = `Бали: ${score}`;
+        input.value = `${score}`;
     }
 }
 
