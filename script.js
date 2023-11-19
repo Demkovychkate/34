@@ -1,10 +1,5 @@
 const blockWrapper = document.querySelector('.blockWrapper');
-const blockList = [];
-
- const block = document.createElement('div');
-block.className = 'block';
-blockList.push(block);
-blockWrapper.appendChild(block);
+const blockList = [createNewBlock()];
 
 const inputContainer = document.createElement('div');
 inputContainer.className = 'inputContainer';
@@ -37,34 +32,61 @@ const operations = {
     40: () => moveDown(),
 };
 
+function createNewBlock() {
+    const newBlock = document.createElement('div');
+    newBlock.className = 'block';
+    blockWrapper.appendChild(newBlock);
+    return newBlock;
+}
+
 function moveLeft() {
-    blockList.forEach((block) => {
-        const leftPosition = parseInt(block.style.left || 0);
-        if (leftPosition - STEP >= 0 && bottomEdge(block)) {
-            block.style.left = `${leftPosition - STEP}px`;
-            showScore();
-        }
-    });
+    const leftPosition = parseInt(blockList[0].style.left || 0);
+    if (leftPosition - STEP >= 0) {
+        blockList[0].style.left = `${leftPosition - STEP}px`;
+        showScore();
+    }
 }
 
 function moveRight() {
-    blockList.forEach((block) => {
-        const leftPosition = parseInt(block.style.left || 0);
-        if (leftPosition + STEP <= maxX && bottomEdge(block)) {
-            block.style.left = `${leftPosition + STEP}px`;
-            showScore();
-        }
-    });
+    const leftPosition = parseInt(blockList[0].style.left || 0);
+    if (leftPosition + STEP <= maxX) {
+        blockList[0].style.left = `${leftPosition + STEP}px`;
+        showScore();
+    }
 }
 
 function moveDown() {
-    blockList.forEach((block) => {
-        const topPosition = parseInt(block.style.top || 0);
-        if (topPosition + STEP <= maxY && bottomEdge(block)) {
-            block.style.top = `${topPosition + STEP}px`;
+    const topPosition = parseInt(blockList[0].style.top || 0);
+    if (topPosition + STEP <= maxY && bottomEdge(blockList[0])) {
+        blockList[0].style.top = `${topPosition + STEP}px`;
+        checkEdge();
+    } else {
+        blockList.unshift(createNewBlock());
+        
+    }
+}
+
+function checkEdge() {
+    if (blockList.length > 1) {
+        for (let i = 1; i < blockList.length; i++) {
+            
+            const currentBlock = blockList[0];
+            const otherBlock = blockList[i];
+            const topPosition = parseInt(currentBlock.style.top || 0);
+            const otherTopPosition = parseInt(otherBlock.style.top || 0);
+
+            if (
+                topPosition + currentBlock.offsetHeight >= otherTopPosition &&
+                topPosition < otherTopPosition + otherBlock.offsetHeight
+            ) {
+                
+                blockList.unshift(createNewBlock());
+                showScore();
+               
+            } 
+            
         }
-    });
-    createNewBlock();
+    }
 }
 
 function bottomEdge(block) {
@@ -73,23 +95,8 @@ function bottomEdge(block) {
 }
 
 function showScore() {
-    const topBlock = blockList[blockList.length - 1];
-    if (bottomEdge(topBlock)) {
-        score += 1;
-        input.value = `${score}`;
-    }
-}
-
-function createNewBlock() {
-    const bottomBlock = blockList[blockList.length - 1];
-    const topPosition = parseInt(bottomBlock.style.top || 0);
-    if (topPosition + STEP >= maxY) {
-        const newBlock = document.createElement('div');
-        newBlock.className = 'block';
-        blockList.push(newBlock);
-        blockWrapper.appendChild(newBlock);        
-    } 
-    
+    score += 1;
+    input.value = `${score}`;
 }
 
 function keyPress(e) {
@@ -103,5 +110,3 @@ document.addEventListener('keydown', keyPress);
 setInterval(() => {
     moveDown();
 }, 1000);
-
-
